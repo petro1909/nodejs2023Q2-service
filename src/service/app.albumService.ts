@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAlbumDto, UpdateAlbumDto, Album } from 'src/type/Album';
+import { CreateAlbumDto, UpdateAlbumDto, Album } from 'src/model/Album';
 import { v4 } from 'uuid';
 import { TrackService } from './app.trackService';
 import { FavoritesService } from './app.favoritesService';

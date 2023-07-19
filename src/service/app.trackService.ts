@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTrackDto, UpdateTrackDto, Track } from 'src/type/track';
+import { CreateTrackDto, UpdateTrackDto, Track } from 'src/model/track';
 import { v4 } from 'uuid';
 import { FavoritesService } from './app.favoritesService';
 

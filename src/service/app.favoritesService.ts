@@ -1,4 +1,4 @@
-import { Favorites, FavoritesResponse } from 'src/type/favorites';
+import { Favorites, FavoritesResponse } from 'src/model/favorites';
 import { TrackService } from './app.trackService';
 import { AlbumService } from './app.albumService';
 import { ArtistService } from './app.artistService';
