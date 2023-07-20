@@ -29,7 +29,7 @@ export class ArtistController {
     return Artist;
   }
 
-  @Put()
+  @Put(':id')
   @HttpCode(200)
   updateArtist(@Param(ValidationPipe) requestParams: RequestParams, @Body(ValidationPipe) updateArtistDto: UpdateArtistDto) {
     const artist = this.artistService.changeArtist(requestParams.id, updateArtistDto);

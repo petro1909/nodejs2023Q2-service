@@ -8,6 +8,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
+  @HttpCode(200)
   getUsers(): Array<User> {
     return this.userService.getUsers();
   }
@@ -26,12 +27,10 @@ export class UserController {
   @HttpCode(201)
   createUser(@Body(ValidationPipe) createUserDto: CreateUserDto) {
     const user = this.userService.createUser(createUserDto);
-    const userClone = Object.assign({}, user);
-    delete userClone.password;
-    return userClone;
+    return user;
   }
 
-  @Put()
+  @Put(':id')
   @HttpCode(200)
   updateUserPassword(@Param(ValidationPipe) requestParams: RequestParams, @Body(ValidationPipe) updatePasswordDto: UpdatePasswordDto) {
     let user: User;

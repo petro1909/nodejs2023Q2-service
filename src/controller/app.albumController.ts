@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus, HttpCode, ValidationPipe } from '@nestjs/common';
-import { AlbumService } from '../service/app.AlbumService';
+import { AlbumService } from '../service/app.albumService';
 import { CreateAlbumDto, UpdateAlbumDto, Album } from 'src/model/Album';
 import { RequestParams } from 'src/model/requestParams';
 
@@ -29,7 +29,7 @@ export class AlbumController {
     return album;
   }
 
-  @Put()
+  @Put(':id')
   @HttpCode(200)
   updateAlbum(@Param(ValidationPipe) requestParams: RequestParams, @Body(ValidationPipe) updateAlbumDto: UpdateAlbumDto) {
     const album = this.albumService.changeAlbum(requestParams.id, updateAlbumDto);

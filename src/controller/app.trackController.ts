@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus, HttpCode, ValidationPipe } from '@nestjs/common';
-import { TrackService } from '../service/app.TrackService';
+import { TrackService } from '../service/app.trackService';
 import { CreateTrackDto, UpdateTrackDto, Track } from 'src/model/Track';
 import { RequestParams } from 'src/model/requestParams';
 
@@ -29,7 +29,7 @@ export class TrackController {
     return track;
   }
 
-  @Put()
+  @Put(':id')
   @HttpCode(200)
   updateTrack(@Param(ValidationPipe) requestParams: RequestParams, @Body(ValidationPipe) updateTrackDto: UpdateTrackDto) {
     const track = this.trackService.changeTrack(requestParams.id, updateTrackDto);
