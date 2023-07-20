@@ -1,53 +1,41 @@
-import { Favorites, FavoritesResponse } from 'src/model/favorites';
-import { TrackService } from './app.trackService';
-import { AlbumService } from './app.albumService';
-import { ArtistService } from './app.artistService';
+import { Favorites } from 'src/model/favorites';
 
 export class FavoritesService {
-  constructor(
-    private readonly trackService: TrackService,
-    private readonly albumService: AlbumService,
-    private readonly artistService: ArtistService,
-  ) {}
-
   private favorites: Favorites = {
     artists: [],
     tracks: [],
     albums: [],
   };
 
-  getFavorites(): FavoritesResponse {
-    return {
-      artists: this.favorites.artists.map((artistId) => this.artistService.getArtist(artistId)),
-      tracks: this.favorites.tracks.map((trackId) => this.trackService.getTrack(trackId)),
-      albums: this.favorites.albums.map((albumId) => this.albumService.getAlbum(albumId)),
-    };
+  getFavorites(): Favorites {
+    return this.favorites;
   }
 
   addArtist(artistId: string) {
-    this.addToFavorites(artistId, 'artists');
+    return this.addToFavorites(artistId, 'artists');
   }
   addAlbum(albumId: string) {
-    this.addToFavorites(albumId, 'album');
+    return this.addToFavorites(albumId, 'albums');
   }
   addTrack(trackId: string) {
-    this.addToFavorites(trackId, 'track');
+    return this.addToFavorites(trackId, 'tracks');
   }
 
-  deleteArtist(artistId: string) {
-    this.deleteFromFavorites(artistId, 'artists');
+  deleteArtist(artistId: string): boolean {
+    return this.deleteFromFavorites(artistId, 'artists');
   }
 
-  deleteAlbum(albumId: string) {
-    this.deleteFromFavorites(albumId, 'album');
+  deleteAlbum(albumId: string): boolean {
+    return this.deleteFromFavorites(albumId, 'albums');
   }
 
-  deleteTrack(trackId: string) {
-    this.deleteFromFavorites(trackId, 'track');
+  deleteTrack(trackId: string): boolean {
+    return this.deleteFromFavorites(trackId, 'tracks');
   }
 
   private addToFavorites(id: string, type: string) {
     this.favorites[type as keyof typeof this.favorites].push(id);
+    return true;
   }
 
   private deleteFromFavorites(id: string, type: string) {
@@ -55,5 +43,6 @@ export class FavoritesService {
     if (itemIndex !== -1) {
       this.favorites[type as keyof typeof this.favorites].splice(itemIndex, 1);
     }
+    return itemIndex !== -1;
   }
 }
