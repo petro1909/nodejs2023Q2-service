@@ -5,13 +5,17 @@ import { v4 } from 'uuid';
 @Injectable()
 export class UserService {
   private users: Array<User> = [];
+
   getUsers(): Array<User> {
-    return this.users;
+    const usersWithoutPassword = this.users.map((user) => this.excludeUserPassword(user));
+    return usersWithoutPassword;
   }
 
   getUser(inputId: string): User | undefined {
     const findedUser = this.users.find((user) => user.id === inputId);
-    return findedUser;
+    if (!findedUser) return;
+
+    return this.excludeUserPassword(findedUser);
   }
 
   createUser(createUserDto: CreateUserDto): User {
@@ -20,12 +24,13 @@ export class UserService {
     const createdUser: User = {
       id: createdUserId,
       ...createUserDto,
-      version: 0,
+      version: 1,
       createdAt: currentTimeStamp,
       updatedAt: currentTimeStamp,
     };
     this.users.push(createdUser);
-    return createdUser;
+
+    return this.excludeUserPassword(createdUser);
   }
 
   changeUserPassword(inputId: string, updatePasswordDto: UpdatePasswordDto): User | undefined {
@@ -35,7 +40,9 @@ export class UserService {
       throw new Error('old password is wrong');
     }
     editedUser.password = updatePasswordDto.newPassword;
-    return editedUser;
+    editedUser.version++;
+    editedUser.updatedAt = new Date().getTime();
+    return this.excludeUserPassword(editedUser);
   }
 
   deleteUser(inputId: string): User | undefined {
@@ -45,5 +52,11 @@ export class UserService {
     const foundedUserIndex = this.users.indexOf(deletedUser);
     this.users.splice(foundedUserIndex, 1);
     return deletedUser;
+  }
+
+  private excludeUserPassword(user: User) {
+    const userClone = Object.assign({}, user);
+    delete userClone.password;
+    return userClone;
   }
 }
