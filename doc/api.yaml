@@ -15,27 +15,37 @@ components:
         id:
           type: string
           format: uuid
+          example: 7a342ca2-e79f-528e-6302-8f901b0b6888
         login:
           type: string
           example: 'TestUser'
+        password:
+          type: string
+          example: 'TestPassword'
         version:
-          type: number
-          example: 1
+          type: integer
+          example: 5
+          default: 1
         createAt:
-          type: number
+          type: integer
           example: 1655000000
         updateAt:
-          type: number
+          type: integer
           example: 1655000000
       required:
         - id
         - login
+        - password
+        - version
+        - createAt
+        - updateAt
     Artist:
       type: object
       properties:
         id:
           type: string
           format: uuid
+          example: 7a342ca2-e79f-528e-6302-8f901b0b6888
         name:
           type: string
           example: 'Freddie Mercury'
@@ -45,12 +55,14 @@ components:
       required:
         - id
         - name
+        - grammy
     Album:
       type: object
       properties:
         id:
           type: string
           format: uuid
+          example: 7a342ca2-e79f-528e-6302-8f901b0b6888
         name:
           type: string
           example: 'Innuendo'
@@ -61,15 +73,18 @@ components:
           type: string
           format: uuid
           nullable: true
+          example: 7a342ca2-e79f-528e-6302-8f901b0b6888
       required:
         - id
         - name
+        - year
     Track:
       type: object
       properties:
         id:
           type: string
           format: uuid
+          example: 7a342ca2-e79f-528e-6302-8f901b0b6888
         name:
           type: string
           example: The Show Must Go On
@@ -77,10 +92,12 @@ components:
           type: string
           format: uuid
           nullable: true
+          example: 029c6164-b6fa-42f9-803f-dffa37999c8f
         albumId:
           type: string
           format: uuid
           nullable: true
+          example: 029c6164-b6fa-42f9-803f-dffa37999c8f
         duration:
           type: integer
           description: In seconds
@@ -139,8 +156,8 @@ paths:
                   type: string
                   description: Password
               required:
-                - user
                 - login
+                - password
       responses:
         200:
           description: Successful login.
