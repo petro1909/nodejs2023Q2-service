@@ -5,7 +5,7 @@ info:
   version: 1.0.0
 
 servers:
-  - url: /api
+  - url: http://localhost:4000/api
 
 components:
   schemas:
@@ -15,37 +15,27 @@ components:
         id:
           type: string
           format: uuid
-          example: 7a342ca2-e79f-528e-6302-8f901b0b6888
         login:
           type: string
           example: 'TestUser'
-        password:
-          type: string
-          example: 'TestPassword'
         version:
-          type: integer
-          example: 5
-          default: 1
+          type: number
+          example: 1
         createAt:
-          type: integer
+          type: number
           example: 1655000000
         updateAt:
-          type: integer
+          type: number
           example: 1655000000
       required:
         - id
         - login
-        - password
-        - version
-        - createAt
-        - updateAt
     Artist:
       type: object
       properties:
         id:
           type: string
           format: uuid
-          example: 7a342ca2-e79f-528e-6302-8f901b0b6888
         name:
           type: string
           example: 'Freddie Mercury'
@@ -55,14 +45,12 @@ components:
       required:
         - id
         - name
-        - grammy
     Album:
       type: object
       properties:
         id:
           type: string
           format: uuid
-          example: 7a342ca2-e79f-528e-6302-8f901b0b6888
         name:
           type: string
           example: 'Innuendo'
@@ -73,18 +61,15 @@ components:
           type: string
           format: uuid
           nullable: true
-          example: 7a342ca2-e79f-528e-6302-8f901b0b6888
       required:
         - id
         - name
-        - year
     Track:
       type: object
       properties:
         id:
           type: string
           format: uuid
-          example: 7a342ca2-e79f-528e-6302-8f901b0b6888
         name:
           type: string
           example: The Show Must Go On
@@ -92,12 +77,10 @@ components:
           type: string
           format: uuid
           nullable: true
-          example: 029c6164-b6fa-42f9-803f-dffa37999c8f
         albumId:
           type: string
           format: uuid
           nullable: true
-          example: 029c6164-b6fa-42f9-803f-dffa37999c8f
         duration:
           type: integer
           description: In seconds
@@ -156,8 +139,8 @@ paths:
                   type: string
                   description: Password
               required:
+                - user
                 - login
-                - password
       responses:
         200:
           description: Successful login.
@@ -333,7 +316,7 @@ paths:
         401:
           $ref: '#/components/responses/UnauthorizedError'
         403:
-          description: oldPassowrd is wrong
+          description: oldPassword is wrong
         404:
           description: User not found
 
@@ -502,7 +485,7 @@ paths:
       description: Delete track from library
       responses:
         204:
-          description: Delelted succesfully
+          description: Deleted successfully
         400:
           description: Bad request. trackId is invalid (not uuid)
         401:
@@ -514,7 +497,7 @@ paths:
       tags:
         - Album
       summary: Get albums list
-      description: Gets all library alibums list
+      description: Gets all library albums list
       responses:
         200:
           description: Successful operation
@@ -552,7 +535,7 @@ paths:
                 - year
       responses:
         201:
-          description: Almub is created
+          description: Album is created
           content:
             application/json:
               schema:
@@ -631,7 +614,7 @@ paths:
       description: Delete album from library
       responses:
         204:
-          description: Deleted succesfully
+          description: Deleted successfully
         400:
           description: Bad request. albumId is invalid (not uuid)
         401:
@@ -750,7 +733,7 @@ paths:
       description: Delete artist from library
       responses:
         204:
-          description: Delelted succesfully
+          description: Deleted successfully
         400:
           description: Bad request. artistId is invalid (not uuid)
         401:
@@ -787,7 +770,7 @@ paths:
       description: Add track to the favorites
       responses:
         201:
-          description: Added succesfully
+          description: Added successfully
         400:
           description: Bad. trackId is invalid (not uuid)
         401:
@@ -801,7 +784,7 @@ paths:
       description: Delete track from favorites
       responses:
         204:
-          description: Deleted succesfully
+          description: Deleted successfully
         400:
           description: Bad. trackId is invalid (not uuid)
         401:
@@ -823,7 +806,7 @@ paths:
       description: Add album to the favorites
       responses:
         201:
-          description: Added succesfully
+          description: Added successfully
         400:
           description: Bad. albumId is invalid (not uuid)
         401:
@@ -837,7 +820,7 @@ paths:
       description: Delete album from favorites
       responses:
         204:
-          description: Deleted succesfully
+          description: Deleted successfully
         400:
           description: Bad. albumId is invalid (not uuid)
         401:
@@ -859,7 +842,7 @@ paths:
       description: Add artist to the favorites
       responses:
         201:
-          description: Added succesfully
+          description: Added successfully
         400:
           description: Bad request. artistId is invalid (not uuid)
         401:
@@ -873,7 +856,7 @@ paths:
       description: Delete artist from favorites
       responses:
         204:
-          description: Deleted succesfully
+          description: Deleted successfully
         400:
           description: Bad request. artistId is invalid (not uuid)
         401:
