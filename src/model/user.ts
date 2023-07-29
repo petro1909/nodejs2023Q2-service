@@ -18,8 +18,6 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  @MinLength(5)
-  @MaxLength(20)
   password: string;
 }
 
@@ -32,7 +30,5 @@ export class UpdatePasswordDto {
 
   @IsString()
   @IsNotEmpty()
-  @MinLength(5)
-  @MaxLength(20)
   newPassword: string;
 }
