@@ -34,8 +34,10 @@ export class FavoritesService {
   }
 
   private addToFavorites(id: string, type: string) {
-    this.favorites[type as keyof typeof this.favorites].push(id);
-    return true;
+    const array = this.favorites[type as keyof typeof this.favorites];
+    if (!array.includes(id)) {
+      array.push(id);
+    }
   }
 
   private deleteFromFavorites(id: string, type: string) {
