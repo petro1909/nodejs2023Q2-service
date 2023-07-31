@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from './modules/app.module';
 import { config } from 'dotenv';
 import { resolve } from 'path';
 import { serve, setup } from 'swagger-ui-express';
