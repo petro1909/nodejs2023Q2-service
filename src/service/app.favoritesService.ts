@@ -1,5 +1,6 @@
+import { Injectable } from '@nestjs/common';
 import { Favorites } from 'src/model/favorites';
-
+@Injectable()
 export class FavoritesService {
   private favorites: Favorites = {
     artists: [],
