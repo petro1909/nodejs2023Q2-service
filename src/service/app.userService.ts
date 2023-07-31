@@ -54,9 +54,9 @@ export class UserService {
     return deletedUser;
   }
 
-  private excludeUserPassword(user: User) {
-    const userClone = Object.assign({}, user);
-    delete userClone.password;
-    return userClone;
+  private excludeUserPassword(user: User): User {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...userWithoutPassword } = user;
+    return userWithoutPassword as User;
   }
 }
