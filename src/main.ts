@@ -13,7 +13,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const document = load((await readFile('./doc/api.yaml')).toString());
-  app.use('/api', serve, setup(document));
+  app.use('/doc', serve, setup(document));
 
   await app.listen(PORT);
 }
