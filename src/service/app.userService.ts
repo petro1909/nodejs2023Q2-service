@@ -1,62 +1,63 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto, UpdatePasswordDto, User } from 'src/model/user';
-import { v4 } from 'uuid';
+import { UserRepository } from 'src/repository/userRepositoty';
 
 @Injectable()
 export class UserService {
-  private users: Array<User> = [];
+  constructor(private readonly userRepository: UserRepository) {}
 
-  getUsers(): Array<User> {
-    const usersWithoutPassword = this.users.map((user) => this.excludeUserPassword(user));
-    return usersWithoutPassword;
+  async getUsers(): Promise<Array<User>> {
+    const users = (await this.userRepository.getAll()) as Array<User>;
+    return users;
   }
 
-  getUser(inputId: string): User | undefined {
-    const findedUser = this.users.find((user) => user.id === inputId);
-    if (!findedUser) return;
-
-    return this.excludeUserPassword(findedUser);
+  async getUser(inputId: string): Promise<User | null> {
+    const findedUser = await this.userRepository.getOne(inputId);
+    if (!findedUser) return null;
+    return findedUser;
   }
 
-  createUser(createUserDto: CreateUserDto): User {
-    const createdUserId = v4();
-    const currentTimeStamp = new Date().getTime();
-    const createdUser: User = {
-      id: createdUserId,
+  async createUser(createUserDto: CreateUserDto): Promise<User> {
+    const currentTimeStamp = new Date();
+    const user = new User({
       ...createUserDto,
       version: 1,
       createdAt: currentTimeStamp,
       updatedAt: currentTimeStamp,
-    };
-    this.users.push(createdUser);
-
-    return this.excludeUserPassword(createdUser);
+    });
+    const createdUser = await this.userRepository.create(user);
+    return new User({
+      id: createdUser.id,
+      login: createdUser.login,
+      password: createdUser.password,
+      version: createdUser.version,
+      createdAt: createdUser.createdAt,
+      updatedAt: createdUser.updatedAt,
+    });
   }
 
-  changeUserPassword(inputId: string, updatePasswordDto: UpdatePasswordDto): User | undefined {
-    const editedUser = this.users.find((user) => user.id === inputId);
-    if (!editedUser) return;
-    if (editedUser.password !== updatePasswordDto.oldPassword) {
+  async changeUserPassword(inputId: string, updatePasswordDto: UpdatePasswordDto): Promise<User | undefined> {
+    const editableUser = await this.userRepository.getOne(inputId);
+    if (!editableUser) return;
+    if (editableUser.password !== updatePasswordDto.oldPassword) {
       throw new Error('old password is wrong');
     }
-    editedUser.password = updatePasswordDto.newPassword;
-    editedUser.version++;
-    editedUser.updatedAt = new Date().getTime();
-    return this.excludeUserPassword(editedUser);
+    editableUser.password = updatePasswordDto.newPassword;
+    editableUser.version++;
+    editableUser.updatedAt = new Date();
+
+    const editedUser = await this.userRepository.update(inputId, editableUser);
+    return new User({
+      id: editedUser.id,
+      login: editedUser.login,
+      password: editedUser.password,
+      version: editedUser.version,
+      createdAt: editedUser.createdAt,
+      updatedAt: editedUser.updatedAt,
+    });
   }
 
-  deleteUser(inputId: string): User | undefined {
-    const deletedUser = this.users.find((user) => user.id === inputId);
-    if (!deletedUser) return;
-
-    const foundedUserIndex = this.users.indexOf(deletedUser);
-    this.users.splice(foundedUserIndex, 1);
-    return deletedUser;
-  }
-
-  private excludeUserPassword(user: User): User {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...userWithoutPassword } = user;
-    return userWithoutPassword as User;
+  async deleteUser(inputId: string): Promise<User | undefined> {
+    return await this.userRepository.delete(inputId);
   }
 }

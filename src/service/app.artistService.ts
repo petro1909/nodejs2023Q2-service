@@ -1,54 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { CreateArtistDto, UpdateArtistDto, Artist } from 'src/model/artist';
-import { v4 } from 'uuid';
 import { TrackService } from './app.trackService';
 import { AlbumService } from './app.albumService';
 import { FavoritesService } from './app.favoritesService';
+import { ArtistRepository } from 'src/repository/artistRepository';
 @Injectable()
 export class ArtistService {
   constructor(
     private readonly trackService: TrackService,
     private readonly albumService: AlbumService,
     private readonly favoriteService: FavoritesService,
+    private readonly artistRepository: ArtistRepository,
   ) {}
 
-  private artists: Array<Artist> = [];
-  getArtists(): Array<Artist> {
-    return this.artists;
+  async getArtists(): Promise<Array<Artist>> {
+    return await this.artistRepository.getAll();
   }
 
-  getArtist(inputId: string): Artist | undefined {
-    const findedArtist = this.artists.find((artist) => artist.id === inputId);
-    return findedArtist;
+  async getArtist(inputId: string): Promise<Artist | undefined> {
+    return await this.artistRepository.getOne(inputId);
   }
 
-  createArtist(createArtistDto: CreateArtistDto): Artist {
-    const createdArtistId = v4();
-    const createdArtist: Artist = {
-      id: createdArtistId,
-      ...createArtistDto,
-    };
-    this.artists.push(createdArtist);
-    return createdArtist;
+  async createArtist(createArtistDto: CreateArtistDto): Promise<Artist> {
+    return await this.artistRepository.create(createArtistDto);
   }
 
-  changeArtist(inputId: string, updateArtistDto: UpdateArtistDto): Artist | undefined {
-    const editedArtist = this.artists.find((artist) => artist.id === inputId);
-    if (!editedArtist) return;
-    Object.assign(editedArtist, updateArtistDto);
-    return editedArtist;
+  async changeArtist(inputId: string, updateArtistDto: UpdateArtistDto): Promise<Artist | undefined> {
+    return await this.artistRepository.update(inputId, updateArtistDto);
   }
 
-  deleteArtist(inputId: string): Artist | undefined {
-    const deletedArtist = this.artists.find((artist) => artist.id === inputId);
-    if (!deletedArtist) return;
-
-    this.favoriteService.deleteArtist(deletedArtist.id);
-    this.albumService.resetAlbumsForDeletedArtist(deletedArtist.id);
-    this.trackService.resetTracksForDeletedArtist(deletedArtist.id);
-
-    const foundedArtistIndex = this.artists.indexOf(deletedArtist);
-    this.artists.splice(foundedArtistIndex, 1);
-    return deletedArtist;
+  async deleteArtist(inputId: string): Promise<Artist | undefined> {
+    return await this.artistRepository.delete(inputId);
   }
 }
