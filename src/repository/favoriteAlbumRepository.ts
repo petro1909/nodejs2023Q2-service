@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/service/app.prismaService';
+import { PrismaService } from '../service/app.prismaService';
 @Injectable()
 export class FavoriteAlbumRepository {
   constructor(private readonly prismaClient: PrismaService) {}

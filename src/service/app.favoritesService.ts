@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { FavoritesResponse } from 'src/model/favorites';
-import { AlbumRepository } from 'src/repository/albumRepository';
-import { ArtistRepository } from 'src/repository/artistRepository';
-import { FavoriteAlbumRepository } from 'src/repository/favoriteAlbumRepository';
-import { FavoriteArtistRepository } from 'src/repository/favoriteArtistRepository';
-import { FavoriteTrackRepository } from 'src/repository/favoriteTrackRepository';
-import { TrackRepository } from 'src/repository/trackRepository';
+import { FavoritesResponse } from '../model/favorites';
+import { AlbumRepository } from '../repository/albumRepository';
+import { ArtistRepository } from '../repository/artistRepository';
+import { FavoriteAlbumRepository } from '../repository/favoriteAlbumRepository';
+import { FavoriteArtistRepository } from '../repository/favoriteArtistRepository';
+import { FavoriteTrackRepository } from '../repository/favoriteTrackRepository';
+import { TrackRepository } from '../repository/trackRepository';
 @Injectable()
 export class FavoritesService {
   constructor(

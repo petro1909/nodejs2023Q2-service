@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Delete, Param, HttpCode, ValidationPipe, HttpStatus, HttpException } from '@nestjs/common';
-import { FavoritesResponse } from 'src/model/favorites';
-import { RequestParams } from 'src/model/requestParams';
-import { AlbumService } from 'src/service/app.albumService';
-import { ArtistService } from 'src/service/app.artistService';
-import { FavoritesService } from 'src/service/app.favoritesService';
-import { TrackService } from 'src/service/app.trackService';
+import { FavoritesResponse } from '../model/favorites';
+import { RequestParams } from '../model/requestParams';
+import { AlbumService } from '../service/app.albumService';
+import { ArtistService } from '../service/app.artistService';
+import { FavoritesService } from '../service/app.favoritesService';
+import { TrackService } from '../service/app.trackService';
 
 @Controller('favs')
 export class FavoritesController {

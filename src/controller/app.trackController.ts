@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus, HttpCode, ValidationPipe } from '@nestjs/common';
 import { TrackService } from '../service/app.trackService';
-import { CreateTrackDto, UpdateTrackDto } from 'src/model/Track';
-import { RequestParams } from 'src/model/requestParams';
+import { CreateTrackDto, UpdateTrackDto } from '../model/track';
+import { RequestParams } from '../model/requestParams';
 
 @Controller('track')
 export class TrackController {

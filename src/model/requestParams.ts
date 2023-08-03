@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { isUUID } from 'src/validation/idValidator';
+import { isUUID } from '../validation/idValidator';
 
 export class RequestParams {
   @IsNotEmpty()

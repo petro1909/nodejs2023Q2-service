@@ -14,8 +14,8 @@ import {
   ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { UserService } from '../service/app.userService';
-import { CreateUserDto, UpdatePasswordDto, User } from 'src/model/user';
-import { RequestParams } from 'src/model/requestParams';
+import { CreateUserDto, UpdatePasswordDto, User } from '../model/user';
+import { RequestParams } from '../model/requestParams';
 
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)

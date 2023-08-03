@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus, HttpCode, ValidationPipe } from '@nestjs/common';
 import { ArtistService } from '../service/app.artistService';
-import { CreateArtistDto, UpdateArtistDto } from 'src/model/Artist';
-import { RequestParams } from 'src/model/requestParams';
+import { CreateArtistDto, UpdateArtistDto } from '../model/artist';
+import { RequestParams } from '../model/requestParams';
 
 @Controller('artist')
 export class ArtistController {

@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus, HttpCode, ValidationPipe } from '@nestjs/common';
 import { AlbumService } from '../service/app.albumService';
-import { CreateAlbumDto, UpdateAlbumDto } from 'src/model/Album';
-import { RequestParams } from 'src/model/requestParams';
+import { CreateAlbumDto, UpdateAlbumDto } from '../model/album';
+import { RequestParams } from '../model/requestParams';
 
 @Controller('album')
 export class AlbumController {

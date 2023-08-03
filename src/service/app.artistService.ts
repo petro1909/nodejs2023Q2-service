@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateArtistDto, UpdateArtistDto, Artist } from 'src/model/artist';
-import { ArtistRepository } from 'src/repository/artistRepository';
+import { CreateArtistDto, UpdateArtistDto, Artist } from '../model/artist';
+import { ArtistRepository } from '../repository/artistRepository';
 @Injectable()
 export class ArtistService {
   constructor(private readonly artistRepository: ArtistRepository) {}

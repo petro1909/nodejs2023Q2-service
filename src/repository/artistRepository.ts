@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateArtistDto, CreateArtistDto, Artist } from 'src/model/artist';
-import { PrismaService } from 'src/service/app.prismaService';
+import { UpdateArtistDto, CreateArtistDto, Artist } from '../model/artist';
+import { PrismaService } from '../service/app.prismaService';
 @Injectable()
 export class ArtistRepository {
   constructor(private readonly prismaClient: PrismaService) {}

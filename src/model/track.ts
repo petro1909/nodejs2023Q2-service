@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsNumber, IsPositive, IsString, ValidateIf } from 'class-validator';
-import { isUUID } from 'src/validation/idValidator';
+import { isUUID } from '../validation/idValidator';
 
 export interface Track {
   id: string;

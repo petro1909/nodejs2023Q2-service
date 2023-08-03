@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsNumber, IsPositive, IsString, Max, ValidateIf } from 'class-validator';
-import { isUUID } from 'src/validation/idValidator';
+import { isUUID } from '../validation/idValidator';
 
 export interface Album {
   id: string;

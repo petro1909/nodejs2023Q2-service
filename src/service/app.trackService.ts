@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTrackDto, UpdateTrackDto, Track } from 'src/model/track';
-import { TrackRepository } from 'src/repository/trackRepository';
+import { CreateTrackDto, UpdateTrackDto, Track } from '../model/track';
+import { TrackRepository } from '../repository/trackRepository';
 
 @Injectable()
 export class TrackService {

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ArtistController } from 'src/controller/app.artistController';
-import { ArtistRepository } from 'src/repository/artistRepository';
-import { ArtistService } from 'src/service/app.artistService';
+import { ArtistController } from '../controller/app.artistController';
+import { ArtistRepository } from '../repository/artistRepository';
+import { ArtistService } from '../service/app.artistService';
 
 @Module({
   controllers: [ArtistController],

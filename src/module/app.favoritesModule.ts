@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { FavoritesController } from 'src/controller/app.favoritesController';
-import { FavoritesService } from 'src/service/app.favoritesService';
-import { FavoriteArtistRepository } from 'src/repository/favoriteArtistRepository';
-import { FavoriteAlbumRepository } from 'src/repository/favoriteAlbumRepository';
-import { FavoriteTrackRepository } from 'src/repository/favoriteTrackRepository';
+import { FavoritesController } from '../controller/app.favoritesController';
+import { FavoritesService } from '../service/app.favoritesService';
+import { FavoriteArtistRepository } from '../repository/favoriteArtistRepository';
+import { FavoriteAlbumRepository } from '../repository/favoriteAlbumRepository';
+import { FavoriteTrackRepository } from '../repository/favoriteTrackRepository';
 import { ArtistModule } from './app.artistModule';
 import { AlbumModule } from './app.albumModule';
 import { TrackModule } from './app.trackModule';

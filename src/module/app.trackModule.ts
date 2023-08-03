@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { TrackController } from 'src/controller/app.trackController';
-import { TrackRepository } from 'src/repository/trackRepository';
-import { TrackService } from 'src/service/app.trackService';
+import { TrackController } from '../controller/app.trackController';
+import { TrackRepository } from '../repository/trackRepository';
+import { TrackService } from '../service/app.trackService';
 
 @Module({
   controllers: [TrackController],
