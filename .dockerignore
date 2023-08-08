@@ -1,7 +1,9 @@
 node_modules
-package-lock.json
 .vscode
-dist
-Dockerfile
+dist/**
+app.Dockerfile
+db.Dockerfile
 .env.example
 .git
+.gitignore
+README.md
