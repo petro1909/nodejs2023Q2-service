@@ -4,7 +4,7 @@ import { serve, setup } from 'swagger-ui-express';
 import { readFile } from 'fs/promises';
 import { load } from 'js-yaml';
 
-const PORT = process.env.APP_PORT || 4000;
+const PORT = process.env.PORT || 4000;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
