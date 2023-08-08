@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus, HttpCode, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus, HttpCode, ValidationPipe, ParseUUIDPipe } from '@nestjs/common';
 import { AlbumService } from '../service/app.albumService';
 import { CreateAlbumDto, UpdateAlbumDto } from '../model/album';
-import { RequestParams } from '../model/requestParams';
 
 @Controller('album')
 export class AlbumController {
@@ -14,8 +13,8 @@ export class AlbumController {
 
   @Get(':id')
   @HttpCode(200)
-  async getAlbum(@Param(ValidationPipe) requestParams: RequestParams) {
-    const album = await this.albumService.getAlbum(requestParams.id);
+  async getAlbum(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    const album = await this.albumService.getAlbum(id);
     if (!album) {
       throw new HttpException("such album doesn't exist", HttpStatus.NOT_FOUND);
     }
@@ -31,8 +30,8 @@ export class AlbumController {
 
   @Put(':id')
   @HttpCode(200)
-  async updateAlbum(@Param(ValidationPipe) requestParams: RequestParams, @Body(ValidationPipe) updateAlbumDto: UpdateAlbumDto) {
-    const album = await this.albumService.changeAlbum(requestParams.id, updateAlbumDto);
+  async updateAlbum(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string, @Body(ValidationPipe) updateAlbumDto: UpdateAlbumDto) {
+    const album = await this.albumService.changeAlbum(id, updateAlbumDto);
     if (!album) {
       throw new HttpException("such Album doesn't exist", HttpStatus.NOT_FOUND);
     }
@@ -41,8 +40,8 @@ export class AlbumController {
 
   @Delete(':id')
   @HttpCode(204)
-  async deleteAlbum(@Param(ValidationPipe) requestParams: RequestParams) {
-    const album = await this.albumService.deleteAlbum(requestParams.id);
+  async deleteAlbum(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    const album = await this.albumService.deleteAlbum(id);
     if (!album) {
       throw new HttpException("such Album doesn't exist", HttpStatus.NOT_FOUND);
     }

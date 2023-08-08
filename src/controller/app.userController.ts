@@ -12,10 +12,10 @@ import {
   ValidationPipe,
   UseInterceptors,
   ClassSerializerInterceptor,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { UserService } from '../service/app.userService';
 import { CreateUserDto, UpdatePasswordDto, User } from '../model/user';
-import { RequestParams } from '../model/requestParams';
 
 @Controller('user')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -30,8 +30,8 @@ export class UserController {
 
   @Get(':id')
   @HttpCode(200)
-  async getUser(@Param(ValidationPipe) requestParams: RequestParams): Promise<User> {
-    const user = await this.userService.getUser(requestParams.id);
+  async getUser(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string): Promise<User> {
+    const user = await this.userService.getUser(id);
     if (!user) {
       throw new HttpException("such user doesn't exist", HttpStatus.NOT_FOUND);
     }
@@ -48,12 +48,12 @@ export class UserController {
   @Put(':id')
   @HttpCode(200)
   async updateUserPassword(
-    @Param(ValidationPipe) requestParams: RequestParams,
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body(ValidationPipe) updatePasswordDto: UpdatePasswordDto,
   ): Promise<User> {
     let user: User;
     try {
-      user = await this.userService.changeUserPassword(requestParams.id, updatePasswordDto);
+      user = await this.userService.changeUserPassword(id, updatePasswordDto);
     } catch (err) {
       throw new HttpException('old password is not correct', HttpStatus.FORBIDDEN);
     }
@@ -65,8 +65,8 @@ export class UserController {
 
   @Delete(':id')
   @HttpCode(204)
-  async deleteUser(@Param(ValidationPipe) requestParams: RequestParams) {
-    const user = await this.userService.deleteUser(requestParams.id);
+  async deleteUser(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    const user = await this.userService.deleteUser(id);
     if (!user) {
       throw new HttpException("such user doesn't exist", HttpStatus.NOT_FOUND);
     }

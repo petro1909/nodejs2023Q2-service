@@ -1,5 +1,4 @@
-import { IsNotEmpty, IsNumber, IsPositive, IsString, Max, ValidateIf } from 'class-validator';
-import { isUUID } from '../validation/idValidator';
+import { IsNotEmpty, IsNumber, IsPositive, IsString, IsUUID, Max, ValidateIf } from 'class-validator';
 
 export interface Album {
   id: string;
@@ -22,7 +21,7 @@ export class CreateAlbumDto {
   @ValidateIf((_, value) => value !== null)
   @IsNotEmpty()
   @IsString()
-  @isUUID({ message: 'value is not uuid type' })
+  @IsUUID('4')
   artistId: string | null;
 }
 
@@ -40,6 +39,6 @@ export class UpdateAlbumDto {
   @ValidateIf((_, value) => value !== null)
   @IsNotEmpty()
   @IsString()
-  @isUUID({ message: 'value is not uuid type' })
+  @IsUUID('4')
   artistId: string | null;
 }

@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus, HttpCode, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus, HttpCode, ValidationPipe, ParseUUIDPipe } from '@nestjs/common';
 import { ArtistService } from '../service/app.artistService';
 import { CreateArtistDto, UpdateArtistDto } from '../model/artist';
-import { RequestParams } from '../model/requestParams';
 
 @Controller('artist')
 export class ArtistController {
@@ -14,8 +13,8 @@ export class ArtistController {
 
   @Get(':id')
   @HttpCode(200)
-  async getArtist(@Param(ValidationPipe) requestParams: RequestParams) {
-    const artist = await this.artistService.getArtist(requestParams.id);
+  async getArtist(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    const artist = await this.artistService.getArtist(id);
     if (!artist) {
       throw new HttpException("such artist doesn't exist", HttpStatus.NOT_FOUND);
     }
@@ -31,8 +30,8 @@ export class ArtistController {
 
   @Put(':id')
   @HttpCode(200)
-  async updateArtist(@Param(ValidationPipe) requestParams: RequestParams, @Body(ValidationPipe) updateArtistDto: UpdateArtistDto) {
-    const artist = await this.artistService.changeArtist(requestParams.id, updateArtistDto);
+  async updateArtist(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string, @Body(ValidationPipe) updateArtistDto: UpdateArtistDto) {
+    const artist = await this.artistService.changeArtist(id, updateArtistDto);
     if (!artist) {
       throw new HttpException("such artist doesn't exist", HttpStatus.NOT_FOUND);
     }
@@ -41,8 +40,8 @@ export class ArtistController {
 
   @Delete(':id')
   @HttpCode(204)
-  async deleteArtist(@Param(ValidationPipe) requestParams: RequestParams) {
-    const artist = await this.artistService.deleteArtist(requestParams.id);
+  async deleteArtist(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    const artist = await this.artistService.deleteArtist(id);
     if (!artist) {
       throw new HttpException("such artist doesn't exist", HttpStatus.NOT_FOUND);
     }

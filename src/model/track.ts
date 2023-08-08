@@ -1,5 +1,4 @@
-import { IsNotEmpty, IsNumber, IsPositive, IsString, ValidateIf } from 'class-validator';
-import { isUUID } from '../validation/idValidator';
+import { IsNotEmpty, IsNumber, IsPositive, IsString, IsUUID, ValidateIf } from 'class-validator';
 
 export interface Track {
   id: string;
@@ -16,13 +15,13 @@ export class CreateTrackDto {
   @ValidateIf((_, value) => value !== null)
   @IsNotEmpty()
   @IsString()
-  @isUUID({ message: 'value is not uuid type' })
+  @IsUUID('4')
   artistId: string | null;
 
   @ValidateIf((_, value) => value !== null)
   @IsNotEmpty()
   @IsString()
-  @isUUID({ message: 'value is not uuid type' })
+  @IsUUID('4')
   albumId: string | null;
 
   @IsNotEmpty()
@@ -38,13 +37,13 @@ export class UpdateTrackDto {
   @ValidateIf((_, value) => value !== null)
   @IsNotEmpty()
   @IsString()
-  @isUUID({ message: 'value is not uuid type' })
+  @IsUUID('4')
   artistId: string | null;
 
   @ValidateIf((_, value) => value !== null)
   @IsNotEmpty()
   @IsString()
-  @isUUID({ message: 'value is not uuid type' })
+  @IsUUID('4')
   albumId: string | null;
 
   @IsNotEmpty()

@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus, HttpCode, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus, HttpCode, ValidationPipe, ParseUUIDPipe } from '@nestjs/common';
 import { TrackService } from '../service/app.trackService';
 import { CreateTrackDto, UpdateTrackDto } from '../model/track';
-import { RequestParams } from '../model/requestParams';
 
 @Controller('track')
 export class TrackController {
@@ -14,8 +13,8 @@ export class TrackController {
 
   @Get(':id')
   @HttpCode(200)
-  async getTrack(@Param(ValidationPipe) requestParams: RequestParams) {
-    const track = await this.trackService.getTrack(requestParams.id);
+  async getTrack(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    const track = await this.trackService.getTrack(id);
     if (!track) {
       throw new HttpException("such Track doesn't exist", HttpStatus.NOT_FOUND);
     }
@@ -31,8 +30,8 @@ export class TrackController {
 
   @Put(':id')
   @HttpCode(200)
-  async updateTrack(@Param(ValidationPipe) requestParams: RequestParams, @Body(ValidationPipe) updateTrackDto: UpdateTrackDto) {
-    const track = await this.trackService.changeTrack(requestParams.id, updateTrackDto);
+  async updateTrack(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string, @Body(ValidationPipe) updateTrackDto: UpdateTrackDto) {
+    const track = await this.trackService.changeTrack(id, updateTrackDto);
     if (!track) {
       throw new HttpException("such Track doesn't exist", HttpStatus.NOT_FOUND);
     }
@@ -41,8 +40,8 @@ export class TrackController {
 
   @Delete(':id')
   @HttpCode(204)
-  async deleteTrack(@Param(ValidationPipe) requestParams: RequestParams) {
-    const track = await this.trackService.deleteTrack(requestParams.id);
+  async deleteTrack(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    const track = await this.trackService.deleteTrack(id);
     if (!track) {
       throw new HttpException("such Track doesn't exist", HttpStatus.NOT_FOUND);
     }

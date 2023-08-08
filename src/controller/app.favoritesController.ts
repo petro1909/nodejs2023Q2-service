@@ -1,6 +1,5 @@
-import { Controller, Get, Post, Delete, Param, HttpCode, ValidationPipe, HttpStatus, HttpException } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param, HttpCode, HttpStatus, HttpException, ParseUUIDPipe } from '@nestjs/common';
 import { FavoritesResponse } from '../model/favorites';
-import { RequestParams } from '../model/requestParams';
 import { AlbumService } from '../service/app.albumService';
 import { ArtistService } from '../service/app.artistService';
 import { FavoritesService } from '../service/app.favoritesService';
@@ -23,8 +22,8 @@ export class FavoritesController {
 
   @Post('track/:id')
   @HttpCode(201)
-  async addFavoriteTrack(@Param(ValidationPipe) requestParams: RequestParams) {
-    const trackId = requestParams.id;
+  async addFavoriteTrack(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    const trackId = id;
     if (!(await this.trackService.getTrack(trackId))) {
       throw new HttpException("such track doesn't exist", HttpStatus.UNPROCESSABLE_ENTITY);
     }
@@ -34,8 +33,8 @@ export class FavoritesController {
 
   @Post('album/:id')
   @HttpCode(201)
-  async addFavoriteAlbum(@Param(ValidationPipe) requestParams: RequestParams) {
-    const albumId = requestParams.id;
+  async addFavoriteAlbum(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    const albumId = id;
     if (!(await this.albumService.getAlbum(albumId))) {
       throw new HttpException("such album doesn't exist", HttpStatus.UNPROCESSABLE_ENTITY);
     }
@@ -45,8 +44,8 @@ export class FavoritesController {
 
   @Post('artist/:id')
   @HttpCode(201)
-  async addFavoriteArtist(@Param(ValidationPipe) requestParams: RequestParams) {
-    const artistId = requestParams.id;
+  async addFavoriteArtist(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    const artistId = id;
     if (!(await this.artistService.getArtist(artistId))) {
       throw new HttpException("such artist doesn't exist", HttpStatus.UNPROCESSABLE_ENTITY);
     }
@@ -56,24 +55,24 @@ export class FavoritesController {
 
   @Delete('track/:id')
   @HttpCode(204)
-  async deleteFavoriteTrack(@Param(ValidationPipe) requestParams: RequestParams) {
-    if (!(await this.favoritesService.deleteTrack(requestParams.id))) {
+  async deleteFavoriteTrack(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    if (!(await this.favoritesService.deleteTrack(id))) {
       throw new HttpException("such favorite track doesn't exist", HttpStatus.NOT_FOUND);
     }
   }
 
   @Delete('album/:id')
   @HttpCode(204)
-  async deleteFavoriteAlbum(@Param(ValidationPipe) requestParams: RequestParams) {
-    if (!(await this.favoritesService.deleteAlbum(requestParams.id))) {
+  async deleteFavoriteAlbum(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    if (!(await this.favoritesService.deleteAlbum(id))) {
       throw new HttpException("such favorite album doesn't exist", HttpStatus.NOT_FOUND);
     }
   }
 
   @Delete('artist/:id')
   @HttpCode(204)
-  async deleteFavoriteArtist(@Param(ValidationPipe) requestParams: RequestParams) {
-    if (!(await this.favoritesService.deleteArtist(requestParams.id))) {
+  async deleteFavoriteArtist(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    if (!(await this.favoritesService.deleteArtist(id))) {
       throw new HttpException("such favorite artist doesn't exist", HttpStatus.NOT_FOUND);
     }
   }
