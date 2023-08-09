@@ -1,0 +1,58 @@
+version: "3.9"
+services:
+  app:
+    container_name: ${CONTAINER_BASE_NAME}_app
+    build:
+      context: .
+      dockerfile: app.Dockerfile
+    image: petro1909/app
+    ports:
+      - ${PORT}:${PORT}
+    env_file: .env.docker
+    networks:
+      - ${NETWORK_NAME}
+    depends_on:
+      - postgres
+    volumes:
+      - type: bind
+        source: ./src
+        target: /app/src
+    restart: on-failure
+    stdin_open: true
+    tty: true
+  postgres:
+    container_name: ${CONTAINER_BASE_NAME}_db
+    build: 
+      dockerfile: db.Dockerfile
+    image: petro1909/postgres
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    env_file: .env.docker
+    networks:
+      - ${NETWORK_NAME}
+    restart: on-failure
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    command: "-c logging_collector=on"
+  pg-admin:
+    container_name: ${CONTAINER_BASE_NAME}_db_admin
+    image: dpage/pgadmin4
+    env_file: .env.docker
+    ports:
+      - "${PGADMIN_PORT}:${PGADMIN_PORT}"
+    depends_on:
+      - postgres
+    networks:
+      - ${NETWORK_NAME}
+    restart: on-failure
+networks:
+  app_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config: 
+        - subnet: 172.28.0.0/16
+          gateway: 172.28.0.1
+    name: ${NETWORK_NAME}
+volumes:
+  db-data:

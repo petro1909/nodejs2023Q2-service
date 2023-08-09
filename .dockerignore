@@ -1,0 +1,9 @@
+node_modules
+.vscode
+dist/**
+app.Dockerfile
+db.Dockerfile
+.env.example
+.git
+.gitignore
+README.md
