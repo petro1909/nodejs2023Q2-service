@@ -48,8 +48,10 @@ To use pgadmin in docker, after containers start, you should enter http://localh
 Then you need to register server with our database in container
 * Name - can be any<br>
 <img src="./doc/regServerGeneral.png" alt="register server general tab" name="register server general tab" width=70% height=70%>
+
 * Host name/address - name of container (home_library_db)
 * Port, Username, Password - provided in .env.docker file<br>
+
 <img src="./doc/regServerConnection.png" alt="register server connection tab" name="register server connection tab" width=70% height=70%>
 
 
