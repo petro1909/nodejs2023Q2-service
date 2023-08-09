@@ -17,6 +17,14 @@ git checkout develop_2
 ```
 npm install
 ```
+#### Init database
+```
+npx prisma generate
+```
+Then
+```
+npx prisma migrate deploy
+```
 #### Running application
 ```
 npm run start
