@@ -6,9 +6,9 @@ services:
       context: .
       dockerfile: app.Dockerfile
     image: petro1909/app
-    env_file: .env.docker
     ports:
       - ${PORT}:${PORT}
+    env_file: .env.docker
     networks:
       - ${NETWORK_NAME}
     depends_on:
@@ -18,6 +18,8 @@ services:
         source: ./src
         target: /app/src
     restart: on-failure
+    stdin_open: true
+    tty: true
   postgres:
     container_name: ${CONTAINER_BASE_NAME}_db
     build: 
