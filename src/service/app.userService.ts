@@ -7,13 +7,24 @@ export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   async getUsers(): Promise<Array<User>> {
-    const users = (await this.userRepository.getAll()) as Array<User>;
+    const users = (await this.userRepository.getAll()).map((user) => new User(user)) as Array<User>;
     return users;
   }
 
   async getUser(inputId: string): Promise<User | null> {
     const findedUser = await this.userRepository.getOne(inputId);
     if (!findedUser) return null;
+    return new User(findedUser);
+  }
+
+  public async getUserByLoginAndPassword(login: string, password: string) {
+    const findedUser = await this.userRepository.getOneByLogin(login);
+    if (!findedUser) {
+      return;
+    }
+    if (findedUser.password !== password) {
+      throw new Error('input password doesn"t match actual one');
+    }
     return findedUser;
   }
 
@@ -26,14 +37,7 @@ export class UserService {
       updatedAt: currentTimeStamp,
     });
     const createdUser = await this.userRepository.create(user);
-    return new User({
-      id: createdUser.id,
-      login: createdUser.login,
-      password: createdUser.password,
-      version: createdUser.version,
-      createdAt: createdUser.createdAt,
-      updatedAt: createdUser.updatedAt,
-    });
+    return new User(createdUser);
   }
 
   async changeUserPassword(inputId: string, updatePasswordDto: UpdatePasswordDto): Promise<User | undefined> {
@@ -47,14 +51,12 @@ export class UserService {
     editableUser.updatedAt = new Date();
 
     const editedUser = await this.userRepository.update(inputId, editableUser);
-    return new User({
-      id: editedUser.id,
-      login: editedUser.login,
-      password: editedUser.password,
-      version: editedUser.version,
-      createdAt: editedUser.createdAt,
-      updatedAt: editedUser.updatedAt,
-    });
+    return new User(editedUser);
+  }
+
+  async setRefreshToken(inputId: string, token: string) {
+    const editedUser = await this.userRepository.update(inputId, { refreshToken: token });
+    return new User(editedUser);
   }
 
   async deleteUser(inputId: string): Promise<User | undefined> {
