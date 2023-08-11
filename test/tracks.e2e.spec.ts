@@ -47,7 +47,10 @@ describe('Tracks (e2e)', () => {
     });
 
     it('should correctly get track by id', async () => {
-      const creationResponse = await unauthorizedRequest.post(tracksRoutes.create).set(commonHeaders).send(createTrackDto);
+      const creationResponse = await unauthorizedRequest
+        .post(tracksRoutes.create)
+        .set(commonHeaders)
+        .send(createTrackDto);
 
       const { id } = creationResponse.body;
 
@@ -115,7 +118,10 @@ describe('Tracks (e2e)', () => {
 
   describe('PUT', () => {
     it('should correctly update track match', async () => {
-      const creationResponse = await unauthorizedRequest.post(tracksRoutes.create).set(commonHeaders).send(createTrackDto);
+      const creationResponse = await unauthorizedRequest
+        .post(tracksRoutes.create)
+        .set(commonHeaders)
+        .send(createTrackDto);
 
       const { id: createdId } = creationResponse.body;
 
@@ -156,7 +162,10 @@ describe('Tracks (e2e)', () => {
     });
 
     it('should respond with BAD_REQUEST status code in case of invalid dto', async () => {
-      const creationResponse = await unauthorizedRequest.post(tracksRoutes.create).set(commonHeaders).send(createTrackDto);
+      const creationResponse = await unauthorizedRequest
+        .post(tracksRoutes.create)
+        .set(commonHeaders)
+        .send(createTrackDto);
 
       const { id: createdId } = creationResponse.body;
 

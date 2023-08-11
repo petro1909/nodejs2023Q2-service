@@ -45,7 +45,10 @@ describe('artist (e2e)', () => {
     });
 
     it('should correctly get artist by id', async () => {
-      const creationResponse = await unauthorizedRequest.post(artistsRoutes.create).set(commonHeaders).send(createArtistDto);
+      const creationResponse = await unauthorizedRequest
+        .post(artistsRoutes.create)
+        .set(commonHeaders)
+        .send(createArtistDto);
 
       const { id } = creationResponse.body;
 
@@ -111,7 +114,10 @@ describe('artist (e2e)', () => {
 
   describe('PUT', () => {
     it('should correctly update artist match', async () => {
-      const creationResponse = await unauthorizedRequest.post(artistsRoutes.create).set(commonHeaders).send(createArtistDto);
+      const creationResponse = await unauthorizedRequest
+        .post(artistsRoutes.create)
+        .set(commonHeaders)
+        .send(createArtistDto);
 
       const { id: createdId } = creationResponse.body;
 
@@ -146,7 +152,10 @@ describe('artist (e2e)', () => {
     });
 
     it('should respond with BAD_REQUEST status code in case of invalid dto', async () => {
-      const creationResponse = await unauthorizedRequest.post(artistsRoutes.create).set(commonHeaders).send(createArtistDto);
+      const creationResponse = await unauthorizedRequest
+        .post(artistsRoutes.create)
+        .set(commonHeaders)
+        .send(createArtistDto);
 
       const { id: createdId } = creationResponse.body;
       expect(creationResponse.status).toBe(StatusCodes.CREATED);
@@ -199,7 +208,10 @@ describe('artist (e2e)', () => {
     });
 
     it('should set track.artistId to null after deletion', async () => {
-      const creationArtistResponse = await unauthorizedRequest.post(artistsRoutes.create).set(commonHeaders).send(createArtistDto);
+      const creationArtistResponse = await unauthorizedRequest
+        .post(artistsRoutes.create)
+        .set(commonHeaders)
+        .send(createArtistDto);
 
       const { id: artistId } = creationArtistResponse.body;
 
@@ -212,13 +224,18 @@ describe('artist (e2e)', () => {
 
       expect(creationArtistResponse.status).toBe(StatusCodes.CREATED);
 
-      const creationTrackResponse = await unauthorizedRequest.post(tracksRoutes.create).set(commonHeaders).send(createTrackDto);
+      const creationTrackResponse = await unauthorizedRequest
+        .post(tracksRoutes.create)
+        .set(commonHeaders)
+        .send(createTrackDto);
 
       const { id: trackId } = creationTrackResponse.body;
 
       expect(creationTrackResponse.statusCode).toBe(StatusCodes.CREATED);
 
-      const artistDeletionResponse = await unauthorizedRequest.delete(artistsRoutes.delete(artistId)).set(commonHeaders);
+      const artistDeletionResponse = await unauthorizedRequest
+        .delete(artistsRoutes.delete(artistId))
+        .set(commonHeaders);
 
       expect(artistDeletionResponse.statusCode).toBe(StatusCodes.NO_CONTENT);
 
@@ -232,7 +249,10 @@ describe('artist (e2e)', () => {
     });
 
     it('should set album.artistId to null after deletion', async () => {
-      const creationArtistResponse = await unauthorizedRequest.post(artistsRoutes.create).set(commonHeaders).send(createArtistDto);
+      const creationArtistResponse = await unauthorizedRequest
+        .post(artistsRoutes.create)
+        .set(commonHeaders)
+        .send(createArtistDto);
 
       const { id: artistId } = creationArtistResponse.body;
 
@@ -244,13 +264,18 @@ describe('artist (e2e)', () => {
 
       expect(creationArtistResponse.status).toBe(StatusCodes.CREATED);
 
-      const creationAlbumResponse = await unauthorizedRequest.post(albumsRoutes.create).set(commonHeaders).send(createAlbumDto);
+      const creationAlbumResponse = await unauthorizedRequest
+        .post(albumsRoutes.create)
+        .set(commonHeaders)
+        .send(createAlbumDto);
 
       const { id: albumId } = creationAlbumResponse.body;
 
       expect(creationAlbumResponse.statusCode).toBe(StatusCodes.CREATED);
 
-      const artistDeletionResponse = await unauthorizedRequest.delete(artistsRoutes.delete(artistId)).set(commonHeaders);
+      const artistDeletionResponse = await unauthorizedRequest
+        .delete(artistsRoutes.delete(artistId))
+        .set(commonHeaders);
 
       expect(artistDeletionResponse.statusCode).toBe(StatusCodes.NO_CONTENT);
 

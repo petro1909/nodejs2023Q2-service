@@ -1,4 +1,17 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus, HttpCode, ValidationPipe, ParseUUIDPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+  HttpException,
+  HttpStatus,
+  HttpCode,
+  ValidationPipe,
+  ParseUUIDPipe,
+} from '@nestjs/common';
 import { ArtistService } from '../service/app.artistService';
 import { CreateArtistDto, UpdateArtistDto } from '../model/artist';
 
@@ -30,7 +43,10 @@ export class ArtistController {
 
   @Put(':id')
   @HttpCode(200)
-  async updateArtist(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string, @Body(ValidationPipe) updateArtistDto: UpdateArtistDto) {
+  async updateArtist(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+    @Body(ValidationPipe) updateArtistDto: UpdateArtistDto,
+  ) {
     const artist = await this.artistService.changeArtist(id, updateArtistDto);
     if (!artist) {
       throw new HttpException("such artist doesn't exist", HttpStatus.NOT_FOUND);

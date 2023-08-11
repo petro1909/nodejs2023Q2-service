@@ -51,7 +51,10 @@ describe('Album (e2e)', () => {
     });
 
     it('should correctly get album by id', async () => {
-      const creationResponse = await unauthorizedRequest.post(albumsRoutes.create).set(commonHeaders).send(createAlbumDto);
+      const creationResponse = await unauthorizedRequest
+        .post(albumsRoutes.create)
+        .set(commonHeaders)
+        .send(createAlbumDto);
 
       const { id } = creationResponse.body;
 
@@ -119,14 +122,20 @@ describe('Album (e2e)', () => {
   describe('PUT', () => {
     it('should correctly update album', async () => {
       // Preparation start
-      const creationResponse = await unauthorizedRequest.post(albumsRoutes.create).set(commonHeaders).send(createAlbumDto);
+      const creationResponse = await unauthorizedRequest
+        .post(albumsRoutes.create)
+        .set(commonHeaders)
+        .send(createAlbumDto);
 
       const { id: createdId } = creationResponse.body;
 
       expect(creationResponse.status).toBe(StatusCodes.CREATED);
       const updatedYear = 2021;
 
-      const creationArtistResponse = await unauthorizedRequest.post(artistsRoutes.create).set(commonHeaders).send(createArtistDto);
+      const creationArtistResponse = await unauthorizedRequest
+        .post(artistsRoutes.create)
+        .set(commonHeaders)
+        .send(createArtistDto);
 
       expect(creationArtistResponse.statusCode).toBe(StatusCodes.CREATED);
       const { id: updateArtistId } = creationArtistResponse.body;
@@ -164,7 +173,10 @@ describe('Album (e2e)', () => {
     });
 
     it('should respond with BAD_REQUEST status code in case of invalid dto', async () => {
-      const creationResponse = await unauthorizedRequest.post(albumsRoutes.create).set(commonHeaders).send(createAlbumDto);
+      const creationResponse = await unauthorizedRequest
+        .post(albumsRoutes.create)
+        .set(commonHeaders)
+        .send(createAlbumDto);
 
       const { id: createdId } = creationResponse.body;
 
@@ -232,7 +244,10 @@ describe('Album (e2e)', () => {
         albumId: id,
       };
 
-      const creationTrackResponse = await unauthorizedRequest.post(tracksRoutes.create).set(commonHeaders).send(createTrackDto);
+      const creationTrackResponse = await unauthorizedRequest
+        .post(tracksRoutes.create)
+        .set(commonHeaders)
+        .send(createTrackDto);
 
       const { id: trackId } = creationTrackResponse.body;
 

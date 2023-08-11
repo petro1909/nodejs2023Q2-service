@@ -1,4 +1,17 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus, HttpCode, ValidationPipe, ParseUUIDPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+  HttpException,
+  HttpStatus,
+  HttpCode,
+  ValidationPipe,
+  ParseUUIDPipe,
+} from '@nestjs/common';
 import { AlbumService } from '../service/app.albumService';
 import { CreateAlbumDto, UpdateAlbumDto } from '../model/album';
 
@@ -30,7 +43,10 @@ export class AlbumController {
 
   @Put(':id')
   @HttpCode(200)
-  async updateAlbum(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string, @Body(ValidationPipe) updateAlbumDto: UpdateAlbumDto) {
+  async updateAlbum(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+    @Body(ValidationPipe) updateAlbumDto: UpdateAlbumDto,
+  ) {
     const album = await this.albumService.changeAlbum(id, updateAlbumDto);
     if (!album) {
       throw new HttpException("such Album doesn't exist", HttpStatus.NOT_FOUND);

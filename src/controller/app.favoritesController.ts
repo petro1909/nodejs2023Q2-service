@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Delete, Param, HttpCode, HttpStatus, HttpException, ParseUUIDPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Param,
+  HttpCode,
+  HttpStatus,
+  HttpException,
+  ParseUUIDPipe,
+} from '@nestjs/common';
 import { FavoritesResponse } from '../model/favorites';
 import { AlbumService } from '../service/app.albumService';
 import { ArtistService } from '../service/app.artistService';

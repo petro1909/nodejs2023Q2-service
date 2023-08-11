@@ -22,9 +22,15 @@ export class FavoritesService {
     const favoritesAlbumsId = await this.favoriteAlbumRepository.getAll();
     const favoritesTracks = await this.favoriteTrackRepository.getAll();
     return {
-      artists: await Promise.all(favoritesArtistsId.map(async (favArtist) => await this.artistRepository.getOne(favArtist.artistId))),
-      albums: await Promise.all(favoritesAlbumsId.map(async (favAlbum) => await this.albumRepository.getOne(favAlbum.albumId))),
-      tracks: await Promise.all(favoritesTracks.map(async (favTrack) => await this.trackRepository.getOne(favTrack.trackId))),
+      artists: await Promise.all(
+        favoritesArtistsId.map(async (favArtist) => await this.artistRepository.getOne(favArtist.artistId)),
+      ),
+      albums: await Promise.all(
+        favoritesAlbumsId.map(async (favAlbum) => await this.albumRepository.getOne(favAlbum.albumId)),
+      ),
+      tracks: await Promise.all(
+        favoritesTracks.map(async (favTrack) => await this.trackRepository.getOne(favTrack.trackId)),
+      ),
     };
   }
 

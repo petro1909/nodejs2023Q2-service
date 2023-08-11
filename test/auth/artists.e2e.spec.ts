@@ -26,7 +26,11 @@ describe('artist (e2e)', () => {
 
   describe('POST', () => {
     it('should get UNAUTHORIZED without token presented', async () => {
-      await request.post(artistsRoutes.create).set(commonHeaders).send(createArtistDto).expect(StatusCodes.UNAUTHORIZED);
+      await request
+        .post(artistsRoutes.create)
+        .set(commonHeaders)
+        .send(createArtistDto)
+        .expect(StatusCodes.UNAUTHORIZED);
     });
   });
 

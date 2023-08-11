@@ -7,9 +7,20 @@ import { FavoritesModule } from './app.favoritesModule';
 import { DatabaseModule } from './app.databaseModule';
 import { ConfigModule } from '@nestjs/config';
 import { LoggingMiddleware } from 'src/logging/app.loggingMiddleware';
+import { AuthModule } from './app.authModule';
 
 @Module({
-  imports: [ConfigModule.forRoot(), UserModule, ArtistModule, AlbumModule, TrackModule, FavoritesModule, DatabaseModule],
+  imports: [
+    ConfigModule.forRoot(),
+    UserModule,
+    ArtistModule,
+    AlbumModule,
+    TrackModule,
+    FavoritesModule,
+    DatabaseModule,
+    AuthModule,
+  ],
+  providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

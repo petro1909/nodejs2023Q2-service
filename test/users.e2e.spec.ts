@@ -44,7 +44,10 @@ describe('Users (e2e)', () => {
     });
 
     it('should correctly get user by id', async () => {
-      const creationResponse = await unauthorizedRequest.post(usersRoutes.create).set(commonHeaders).send(createUserDto);
+      const creationResponse = await unauthorizedRequest
+        .post(usersRoutes.create)
+        .set(commonHeaders)
+        .send(createUserDto);
 
       const { id } = creationResponse.body;
 
@@ -108,7 +111,10 @@ describe('Users (e2e)', () => {
 
   describe('PUT', () => {
     it('should correctly update user password match', async () => {
-      const creationResponse = await unauthorizedRequest.post(usersRoutes.create).set(commonHeaders).send(createUserDto);
+      const creationResponse = await unauthorizedRequest
+        .post(usersRoutes.create)
+        .set(commonHeaders)
+        .send(createUserDto);
 
       const { id: createdId } = creationResponse.body;
 
