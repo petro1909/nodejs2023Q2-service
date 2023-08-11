@@ -4,6 +4,8 @@ import { CreateUserDto, User } from 'src/model/user';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { TokenPayload } from 'src/model/token';
+import bcrypt from 'bcrypt';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -12,7 +14,7 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
 
-  public async singup(createUserDto: CreateUserDto) {
+  public async signup(createUserDto: CreateUserDto): Promise<User> {
     return await this.userService.createUser(createUserDto);
   }
   public async login(createUserDto: CreateUserDto) {
@@ -33,8 +35,8 @@ export class AuthService {
       secret: this.configService.get<string>('JWT_SECRET_REFRESH_KEY'),
       expiresIn: this.configService.get<string>('TOKEN_REFRESH_EXPIRE_TIME'),
     });
-    //todo hash token
-    await this.userService.setRefreshToken(user.id, accessToken);
+    const hashedRefreshToken = await bcrypt.hash(refreshToken, +this.configService.get('CRYPT_SALT'));
+    await this.userService.setRefreshToken(user.id, hashedRefreshToken);
     return {
       accessToken: accessToken,
       refreshToken: refreshToken,
@@ -47,7 +49,10 @@ export class AuthService {
     }
     const user = await this.userService.getUser(payload.sub);
     if (!user) {
-      throw new Error('there is no pyload in token');
+      throw new Error('there is no such user');
+    }
+    if (!(await bcrypt.compare(refreshToken, user.refreshToken))) {
+      throw new Error('invalid token');
     }
     try {
       const secret = this.configService.get('JWT_SECRET_REFRESH_KEY');

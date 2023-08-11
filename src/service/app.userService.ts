@@ -1,10 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto, UpdatePasswordDto, User } from '../model/user';
 import { UserRepository } from '../repository/userRepository';
+import bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  private n: number;
+  constructor(private readonly userRepository: UserRepository, private readonly configService: ConfigService) {
+    this.n = Math.random();
+  }
 
   async getUsers(): Promise<Array<User>> {
     const users = (await this.userRepository.getAll()).map((user) => new User(user)) as Array<User>;
@@ -22,13 +27,18 @@ export class UserService {
     if (!findedUser) {
       return;
     }
-    if (findedUser.password !== password) {
+    if (!(await bcrypt.compare(password, findedUser.password))) {
       throw new Error('input password doesn"t match actual one');
     }
     return findedUser;
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
+    const findedUser = await this.userRepository.getOneByLogin(createUserDto.login);
+    if (findedUser) {
+      return new User(findedUser);
+    }
+    createUserDto.password = await bcrypt.hash(createUserDto.password, +this.configService.get('CRYPT_SALT'));
     const currentTimeStamp = new Date();
     const user = new User({
       ...createUserDto,
@@ -43,10 +53,10 @@ export class UserService {
   async changeUserPassword(inputId: string, updatePasswordDto: UpdatePasswordDto): Promise<User | undefined> {
     const editableUser = await this.userRepository.getOne(inputId);
     if (!editableUser) return;
-    if (editableUser.password !== updatePasswordDto.oldPassword) {
+    if (!(await bcrypt.compare(updatePasswordDto.oldPassword, editableUser.password))) {
       throw new Error('old password is wrong');
     }
-    editableUser.password = updatePasswordDto.newPassword;
+    editableUser.password = await bcrypt.hash(updatePasswordDto.newPassword, +this.configService.get('CRYPT_SALT'));
     editableUser.version++;
     editableUser.updatedAt = new Date();
 
