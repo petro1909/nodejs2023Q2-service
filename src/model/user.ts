@@ -16,7 +16,7 @@ export class User {
 
   @ValidateIf((_, value) => value !== null)
   @IsString()
-  refreshToken?: string | undefined;
+  refreshToken: string | null;
 
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);
