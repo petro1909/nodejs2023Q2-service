@@ -6,6 +6,7 @@ CREATE TABLE "User" (
     "version" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "refreshToken" TEXT,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -63,6 +64,9 @@ CREATE TABLE "FavoriteTracks" (
 
     CONSTRAINT "FavoriteTracks_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_login_key" ON "User"("login");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "FavoriteArtists_artistId_key" ON "FavoriteArtists"("artistId");
