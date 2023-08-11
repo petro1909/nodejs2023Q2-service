@@ -11,7 +11,7 @@ import { AuthModule } from './app.authModule';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
     UserModule,
     ArtistModule,
     AlbumModule,
