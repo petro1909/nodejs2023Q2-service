@@ -1,18 +1,29 @@
-import { Controller, Post, Body, ValidationPipe, HttpException, HttpStatus, HttpCode } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  ValidationPipe,
+  HttpException,
+  HttpStatus,
+  HttpCode,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+} from '@nestjs/common';
 import { Public } from 'src/guard/app.publicDecorator';
 import { TokenDto } from 'src/model/token';
 import { CreateUserDto, User } from 'src/model/user';
 import { AuthService } from 'src/service/app.authService';
 
 @Controller('auth')
+@UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
   @Public()
   @Post('/signup')
   @HttpCode(201)
-  public async signup(@Body(ValidationPipe) createUserDto: CreateUserDto) {
-    const user = await this.authService.singup(createUserDto);
-    return user;
+  public async signup(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<User> {
+    return await this.authService.signup(createUserDto);
   }
   @Public()
   @Post('/login')
@@ -31,7 +42,7 @@ export class AuthController {
     }
     return await this.authService.setUserTokenPair(user);
   }
-  @Post('refresh')
+  @Post('/refresh')
   @HttpCode(200)
   public async refresh(@Body(ValidationPipe) refreshTokenDto: TokenDto) {
     try {
