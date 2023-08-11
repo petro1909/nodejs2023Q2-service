@@ -1,5 +1,5 @@
 import { Transform, Exclude } from 'class-transformer';
-import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsNotEmpty, IsString, ValidateIf } from 'class-validator';
 
 export class User {
   id: string;
@@ -14,6 +14,10 @@ export class User {
   @Transform(({ value }) => value.getTime())
   updatedAt: Date;
 
+  @ValidateIf((_, value) => value !== null)
+  @IsString()
+  refreshToken?: string | undefined;
+
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);
   }
@@ -22,8 +26,6 @@ export class User {
 export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
-  @MinLength(3)
-  @MaxLength(255)
   login: string;
 
   @IsString()
@@ -34,8 +36,6 @@ export class CreateUserDto {
 export class UpdatePasswordDto {
   @IsString()
   @IsNotEmpty()
-  @MinLength(3)
-  @MaxLength(255)
   oldPassword: string;
 
   @IsString()
