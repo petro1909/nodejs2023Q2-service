@@ -6,9 +6,11 @@ import { TrackModule } from './app.trackModule';
 import { FavoritesModule } from './app.favoritesModule';
 import { DatabaseModule } from './app.databaseModule';
 import { ConfigModule } from '@nestjs/config';
-import { LoggingMiddleware } from 'src/logging/app.loggingMiddleware';
+import { LoggingMiddleware } from 'src/middleware/app.loggingMiddleware';
 import { AuthModule } from './app.authModule';
-
+import { CustomExceptionFilter } from 'src/middleware/app.customExceptionFilter';
+import { APP_FILTER } from '@nestjs/core';
+import { LoggerModule } from './app.logModule';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -19,8 +21,14 @@ import { AuthModule } from './app.authModule';
     FavoritesModule,
     DatabaseModule,
     AuthModule,
+    LoggerModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: CustomExceptionFilter,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
