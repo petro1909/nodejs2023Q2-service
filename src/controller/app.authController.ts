@@ -9,7 +9,7 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
 } from '@nestjs/common';
-import { Public } from 'src/guard/app.publicDecorator';
+import { Public } from 'src/middleware/app.publicDecorator';
 import { TokenDto } from 'src/model/token';
 import { CreateUserDto, User } from 'src/model/user';
 import { AuthService } from 'src/service/app.authService';
