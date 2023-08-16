@@ -3,15 +3,20 @@ import path from 'path';
 export class FileLoggingService {
   private currentLogDirectory: string;
   private currentLogFileName: string;
+  private fileExtension: string;
   private maxLogFileSizekb: number;
   constructor(directoryPath: string, fileName: string, maxSize: number) {
     this.currentLogDirectory = path.resolve(process.cwd(), directoryPath);
     this.currentLogFileName = fileName;
+    this.fileExtension = 'log';
     this.maxLogFileSizekb = maxSize;
   }
 
   public async write(data: string): Promise<void> {
-    const currentLogFilePath = path.resolve(this.currentLogDirectory, this.currentLogFileName);
+    const currentLogFilePath = path.resolve(
+      this.currentLogDirectory,
+      `${this.currentLogFileName}.${this.fileExtension}`,
+    );
     let fileSizekB = 0;
     try {
       const fileStats = await fs.stat(currentLogFilePath);
@@ -33,7 +38,7 @@ export class FileLoggingService {
           }
         });
         const maxFileNumber = Math.max(...fileNumbers);
-        const oldLogFileName = `${this.currentLogFileName}_${maxFileNumber + 1}.log`;
+        const oldLogFileName = `${this.currentLogFileName}_${maxFileNumber + 1}.${this.fileExtension}`;
         await fs.rename(currentLogFilePath, path.resolve(this.currentLogDirectory, oldLogFileName));
       } catch (err) {
         console.error(err);
@@ -42,7 +47,7 @@ export class FileLoggingService {
     try {
       await fs.appendFile(currentLogFilePath, `${data}\n`, 'utf-8');
     } catch (err) {
-      console.error();
+      console.error(err);
     }
   }
 }

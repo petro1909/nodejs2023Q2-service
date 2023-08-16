@@ -10,13 +10,13 @@ export class CustomLoggerService implements LoggerService {
   constructor(private readonly configService: ConfigService) {
     this.fileWriter = new FileLoggingService(
       configService.get('LOGS_REQ_PATH') || 'logs/req',
-      'reqlog.log',
+      'reqlog',
       +configService.get('LOG_FILE_MAX_SIZE_MB') || 100,
     );
 
     this.errorFileWriter = new FileLoggingService(
       this.configService.get('LOGS_ERR_PATH') || 'logs/err',
-      'errlog.log',
+      'errlog',
       +this.configService.get('LOG_FILE_MAX_SIZE_MB') || 100,
     );
   }
