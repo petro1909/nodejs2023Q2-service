@@ -34,10 +34,6 @@ export class UserService {
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const findedUser = await this.userRepository.getOneByLogin(createUserDto.login);
-    if (findedUser) {
-      return new User(findedUser);
-    }
     createUserDto.password = await bcrypt.hash(createUserDto.password, +this.configService.get('CRYPT_SALT'));
     const currentTimeStamp = new Date();
     const user = new User({
