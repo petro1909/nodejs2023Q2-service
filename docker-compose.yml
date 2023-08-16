@@ -17,6 +17,7 @@ services:
       - type: bind
         source: ./src
         target: /app/src
+      - ./logs:/app/logs
     restart: on-failure
     stdin_open: true
     tty: true
