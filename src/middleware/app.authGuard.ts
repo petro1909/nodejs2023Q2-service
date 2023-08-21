@@ -24,15 +24,7 @@ export class AuthGuard implements CanActivate {
     try {
       await this.jwsService.verifyAsync(token, { secret: process.env.JWT_SECRET_KEY });
     } catch {
-      if (request.url === '/auth/refresh') {
-        try {
-          await this.jwsService.verifyAsync(token, { secret: process.env.JWT_SECRET_KEY, ignoreExpiration: true });
-        } catch {
-          throw new UnauthorizedException();
-        }
-      } else {
-        throw new UnauthorizedException();
-      }
+      throw new UnauthorizedException();
     }
     return true;
   }
