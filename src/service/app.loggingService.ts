@@ -19,6 +19,13 @@ export class CustomLoggerService implements LoggerService {
       'errlog',
       +this.configService.get('LOG_FILE_MAX_SIZE_MB') || 100,
     );
+
+    process.on('uncaughtException', async (error: Error) => {
+      await this.error(error.message, 'uncaughtException');
+    });
+    process.on('unhandledRejection', async (error: Error) => {
+      await this.error(error.message, 'unhandledRejection');
+    });
   }
 
   async error(message: any, ...optionalParams: any[]): Promise<void> {
