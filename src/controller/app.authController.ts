@@ -16,12 +16,12 @@ import { AuthService } from 'src/service/app.authService';
 
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)
+@Public()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/signup')
   @HttpCode(201)
-  @Public()
   public async signup(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<User> {
     try {
       return await this.authService.signup(createUserDto);
@@ -34,7 +34,6 @@ export class AuthController {
 
   @Post('/login')
   @HttpCode(200)
-  @Public()
   public async login(@Body(ValidationPipe) createUserDto: CreateUserDto) {
     let user: User;
     try {
