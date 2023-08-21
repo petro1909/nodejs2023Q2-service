@@ -41,8 +41,13 @@ export class UserController {
   @Post()
   @HttpCode(201)
   async createUser(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<User> {
-    const user = await this.userService.createUser(createUserDto);
-    return user;
+    try {
+      return await this.userService.createUser(createUserDto);
+    } catch (err) {
+      if (err instanceof Error) {
+        throw new HttpException(err.message, HttpStatus.FORBIDDEN);
+      }
+    }
   }
 
   @Put(':id')

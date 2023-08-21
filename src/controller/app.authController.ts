@@ -19,15 +19,22 @@ import { AuthService } from 'src/service/app.authService';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Public()
   @Post('/signup')
   @HttpCode(201)
-  public async signup(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<User> {
-    return await this.authService.signup(createUserDto);
-  }
   @Public()
+  public async signup(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<User> {
+    try {
+      return await this.authService.signup(createUserDto);
+    } catch (err) {
+      if (err instanceof Error) {
+        throw new HttpException(err.message, HttpStatus.FORBIDDEN);
+      }
+    }
+  }
+
   @Post('/login')
   @HttpCode(200)
+  @Public()
   public async login(@Body(ValidationPipe) createUserDto: CreateUserDto) {
     let user: User;
     try {
@@ -42,6 +49,7 @@ export class AuthController {
     }
     return await this.authService.setUserTokenPair(user);
   }
+
   @Post('/refresh')
   @HttpCode(200)
   public async refresh(@Body(ValidationPipe) refreshTokenDto: TokenDto) {
